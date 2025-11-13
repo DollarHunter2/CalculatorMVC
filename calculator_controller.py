@@ -26,6 +26,10 @@ class CalculatorController:
         result = self.model.evaluate()
         self.view.update_display(result)
 
+    def temp_convert1(self):
+        result = self.model.celsius_to_kelvin()
+        self.view.update_display(result)
+
     # ------------------- FUNCTION HANDLERS -------------------
     def on_factorial(self):
         result = self.model.factorial()
@@ -62,3 +66,5 @@ class CalculatorController:
     def on_percent(self):
         result = self.model.percent()
         self.view.update_display(result)
+
+    

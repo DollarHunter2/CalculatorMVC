@@ -103,4 +103,27 @@ class CalculatorModel:
             return result
         except Exception:
             self.expression = ""
+            return "ERROR"  
+        
+    def celsius_to_kelvin(self):
+        """Convert Celsius to Kelvin"""
+        try:
+            val = float(self.expression)
+            result = str(val + 273.15)
+            self.expression = result
+            return result
+        except Exception:
+            self.expression = ""
+            return "ERROR"
+  
+            
+    def kelvin_to_celsius(self):
+        """Convert Kelvin to Celsius"""
+        try:
+            val = float(self.expression)
+            result = str(val - 273.15)
+            self.expression = result
+            return result
+        except Exception:
+            self.expression = ""
             return "ERROR"
