@@ -1,11 +1,26 @@
 #----------------------------calculatorView-------------------
 import tkinter as tk
-
+from PIL import Image, ImageTk 
+import os
 class CalculatorView:
+    def __init__(self, root,controller):
+        self.root = root
+        self.controller = controller
+        self.root.title("Scientific calculator")
+        self.root.configure(bg="#293C4A")
+        #----image loading into the calculator----
+       
+        img = Image.open(r"C:\Users\Cellusys CodeCamp\Desktop\Joe(vs project)\Scientific-calculator-MVC-structure-\assets sy\calculator image.png")
+        img = img.resize((80, 80 ), Image.LANCZOS)
+        self.logo = ImageTk.PhotoImage(img)
+        #-----create label------
+        self.logo_label = tk.Label(self.root , image = self.logo)
+        self.logo_label.grid(row = 0, column = 0, sticky = "nw", padx = 5, pady = 5 )
+        self.logo_label.image = self.logo
     def __init__(self, root, controller):
         self.root = root
         self.controller = controller
-        self.root.title("Scientific Calculator (MVC)")
+        self.root.title("Scientific Calculator")
         self.root.configure(bg="#293C4A", bd=10)
 
         # --- Display ---
