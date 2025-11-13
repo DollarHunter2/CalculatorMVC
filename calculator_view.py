@@ -6,20 +6,32 @@ class CalculatorView:
         self.root = root
         self.controller = controller
         self.root.title("Scientific Calculator (MVC)")
-        self.root.configure(bg="#293C4A", bd=10)
+        self.root.configure(bg="#19C6DD", bd=10)
+        self.root.resizable(False, False)
+
 
         # --- Display ---
         self.text_input = tk.StringVar()
         self.display = tk.Entry(
-            self.root, font=('sans-serif', 20, 'bold'),
-            textvariable=self.text_input, bd=5, insertwidth=5,
-            bg='#BBB', justify='right'
-        )
-        self.display.grid(columnspan=5, padx=10, pady=15)
+    self.root,
+    font=('sans-serif', 28, 'bold'),
+    textvariable=self.text_input,
+    bd=8,
+    insertwidth=6,
+    bg='#E0E0E0',
+    justify='right'
+)
+        self.display.grid(
+            row=0, column=0, columnspan=6,
+            padx=15, pady=25,
+            ipady=25, sticky="ew"
+        )       
+        self.display.xview_moveto(1)
+
 
         # Button styles
-        self.button_params = {'bd': 5, 'fg': '#BBB', 'bg': '#3C3636', 'font': ('sans-serif', 20, 'bold')}
-        self.button_params_main = {'bd': 5, 'fg': '#000', 'bg': '#BBB', 'font': ('sans-serif', 20, 'bold')}
+        self.button_params = {'bd': 1, 'fg': "#000000", 'bg': "#6BBFE1", 'font': ('sans-serif', 20, 'italic')}
+        self.button_params_main = {'bd': 1, 'fg': '#000000', 'bg': "#057956", 'font': ('sans-serif', 20,)}
 
         # Build all buttons
         self.create_buttons()
@@ -29,7 +41,7 @@ class CalculatorView:
         add_btn = lambda text, cmd, r, c: tk.Button(self.root, text=text, command=cmd, **self.button_params).grid(row=r, column=c, sticky="nsew")
 
         # 1st row
-        add_btn('abs', lambda: self.controller.on_button_click('abs('), 1, 0)
+        add_btn('', lambda: self.controller.on_button_click('abs('), 1, 0)
         add_btn('mod', lambda: self.controller.on_button_click('%'), 1, 1)
         add_btn('div', lambda: self.controller.on_button_click('//'), 1, 2)
         add_btn('x!', self.controller.on_factorial, 1, 3)
@@ -68,7 +80,14 @@ class CalculatorView:
             ('7',6,0), ('8',6,1), ('9',6,2), ('DEL',6,3), ('AC',6,4),
             ('4',7,0), ('5',7,1), ('6',7,2), ('*',7,3), ('/',7,4),
             ('1',8,0), ('2',8,1), ('3',8,2), ('+',8,3), ('-',8,4),
-            ('0',9,0), ('.',9,1), ('EXP',9,2), ('=',9,3)
+             
+    ('0', 9, 0),
+    ('.', 9, 1),
+    ('C-K', 9, 2),
+    ("K-C",9,3),
+    ('=', 9, 4),
+    
+
         ]
 
         for (text, row, col) in keys:
@@ -78,6 +97,8 @@ class CalculatorView:
                 cmd = self.controller.on_delete
             elif text == '=':
                 cmd = self.controller.on_equal
+            elif text == "C-K":
+                cmd = self.controller.temp_convert1
             else:
                 cmd = lambda t=text: self.controller.on_button_click(t)
             tk.Button(self.root, text=text, command=cmd, **self.button_params_main).grid(row=row, column=col, sticky="nsew")
@@ -86,3 +107,5 @@ class CalculatorView:
     def update_display(self, value):
         """Updates the display with the given value"""
         self.text_input.set(value)
+        self.display.xview_moveto(1)
+
