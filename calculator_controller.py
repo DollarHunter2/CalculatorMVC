@@ -1,6 +1,9 @@
 #-------------------calculatorControll----------------------
 from calculator_model import CalculatorModel
 from calculator_view import CalculatorView
+import math
+import tkinter.simpledialog as sd
+
 
 class CalculatorController:
     def __init__(self, root):
@@ -30,6 +33,9 @@ class CalculatorController:
         result = self.model.celsius_to_kelvin()
         self.view.update_display(result)
 
+    def temp_convert2(self):
+        result = self.model.kelvin_to_celsius()
+        self.view.update_display(result)
     # ------------------- FUNCTION HANDLERS -------------------
     def on_factorial(self):
         result = self.model.factorial()
@@ -51,20 +57,104 @@ class CalculatorController:
         result = self.model.trig_cot()
         self.view.update_display(result)
 
-    def on_sqrt(self):
-        result = self.model.square_root()
-        self.view.update_display(result)
+    def raise_power (self, power):
+        try:
+            val = float(self.model.expression)
+            result = val ** power
+            result = self.model.fmt(result)
+            self.model.expression = result
+            self.view.update_display(result)
+        except Exception:
+            self.model.expression = ""
+            self.view.update_display("Error")
+    def ten_power(self):
+            try:
+                val = float(self.model.expression)
+                result = 10 ** val
+                result = self.model.fmt(result)
+                self.model.expression = result
+                self.view.update_display(result) 
+            except Exception:
+                self.model.expression = ""
+                self.view.update_display("ERROR")
 
-    def on_cuberoot(self):
-        result = self.model.cube_root()
-        self.view.update_display(result)
+    def log10(self):
+        try:
+            val = float(self.model.expression)
+            result = math.log10(val)
+            result =self.model.fmt(result)
+            self.model.expression = result
+            self.view.update_display(result)
+        except Exception:
+            self.model.expression = ""
+            self.view.update_display("ERROR")
+    def ln(self):
+        try:
+            val = float(self.model.expression)
+            result = math.log(val)
+            result = self.model.fmt(result)
+            self.model.expression = result
+            self.view.update_display(result)
+        except Exception:
+            self.model.expression =""
+            self.view.update_display("ERROR") 
+
+    def raise_power_dynamic(self):
+        try:
+            n =sd.askfloat("Exponent","Enter the power n:")
+            val = float(self.model.expression)
+            result = val**n
+            result = self.model.fmt(result)   
+            self.model.expression = result
+            self.view.update_display(result)
+        except Exception:
+            self.model.expression = ""
+            self.view.update_display("ERROR")
 
     def on_sign_change(self):
-        result = self.model.change_sign()
-        self.view.update_display(result)
+        try:
+            val = float(self.model.expression)
+            val = -val
+            result = self.model.fmt(val)
+            self.model.expression = result
+            self.view.update_display(result)
+        except Exception:
+            self.model.expression = ""
+            self.view.update_display("ERROR")
+        
 
     def on_percent(self):
-        result = self.model.percent()
-        self.view.update_display(result)
+        try:
+            val = float(self.model.expression)
+            val = val / 100
+            result = self.model.fmt(val)  
+            self.model.expression = result
+            self.view.update_display(result)
+        except Exception:
+            self.model.expression = ""
+            self.view.update_display("ERROR")
+        
+    def nth_raise_power_dynamic(self):
+        try:
+            n =sd.askfloat("n -th root","Enter the root n:")
+            val = float(self.model.expression)
+            result = val**(1/n)
+            result = self.model.fmt(result)
+            self.model.expression = result
+            self.view.update_display(result)
+        except Exception:
+            self.model.expression = ""
+            self.view.update_display("ERROR")
+
+    def on_modulo(self):
+        try:
+            result = eval(self.model.expression.replace('%','%')) #computes modulo
+            result= self.model.fmt(result)
+            self.model.expression = result
+
+            self.view.update_display(result)
+        except Exception:
+            self.model.expression = ""
+            self.view.update_display("ERROR")
 
     
